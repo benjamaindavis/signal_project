@@ -11,8 +11,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class FileOutputStrategy implements OutputStrategy {
     //Changed variable name to camelCase
     private String baseDirectory;
-    //Changed variable name to camelCase
-    public final ConcurrentHashMap<String, String> fileMap = new ConcurrentHashMap<>();
+    //Changed variable name to comply to criteria for constants
+    public final ConcurrentHashMap<String, String> FINAL_MAP = new ConcurrentHashMap<>();
 
     public FileOutputStrategy(String baseDirectory) {
 
@@ -20,7 +20,8 @@ public class FileOutputStrategy implements OutputStrategy {
     }
 
     @Override
-    public void output(int patientId, long timestamp, String label, String data) {
+    //Changed timestamp to timeStamp, following the rules for lowerCamelCase
+    public void output(int patientId, long timeStamp, String label, String data) {
         try {
             // Create the directory
             Files.createDirectories(Paths.get(baseDirectory));
@@ -29,14 +30,16 @@ public class FileOutputStrategy implements OutputStrategy {
             return;
         }
         // Set the FilePath variable
-        String FilePath = fileMap.computeIfAbsent(label, k -> Paths.get(baseDirectory, label + ".txt").toString());
-
+        //Changed variable name to camelCase
+        String filePath = FINAL_MAP.computeIfAbsent(label, k -> Paths.get(baseDirectory, label + ".txt").toString());
+        
         // Write the data to the file
         try (PrintWriter out = new PrintWriter(
-                Files.newBufferedWriter(Paths.get(FilePath), StandardOpenOption.CREATE, StandardOpenOption.APPEND))){
-            out.printf("Patient ID: %d, Timestamp: %d, Label: %s, Data: %s%n", patientId, timestamp, label, data);
-        } catch (Exception e) {
-            System.err.println("Error writing to file " + FilePath + ": " + e.getMessage());
+                Files.newBufferedWriter(Paths.get(filePath), StandardOpenOption.CREATE, StandardOpenOption.APPEND))){
+            out.printf("Patient ID: %d, Timestamp: %d, Label: %s, Data: %s%n", patientId, timeStamp, label, data);
+        //Changed exception to reduce vagueness
+        } catch (IOException e) {
+            System.err.println("Error writing to file " + filePath + ": " + e.getMessage());
         }
     }
 }

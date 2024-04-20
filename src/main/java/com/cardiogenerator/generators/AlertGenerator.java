@@ -1,8 +1,8 @@
-package com.cardio_generator.generators;
+// Removed underscore and changed file name
+package com.cardiogenerator.generators;
 
-import java.util.Random;
-
-import com.cardio_generator.outputs.OutputStrategy;
+import java.util.Random; //Removed space
+import com.cardiogenerator.outputs.OutputStrategy;
 
 public class AlertGenerator implements PatientDataGenerator {
     //Changed variable name to comply to criteria for constants
