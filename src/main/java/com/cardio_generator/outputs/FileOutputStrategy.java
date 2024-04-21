@@ -7,16 +7,34 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class fileOutputStrategy implements OutputStrategy {
-
+public class FileOutputStrategy implements OutputStrategy {
+    /**
+     * The base directory where output files will be stored.
+     */
     private String BaseDirectory;
 
+    /**
+     * A concurrent hash map to store file paths corresponding to labels.
+     */
     public final ConcurrentHashMap<String, String> file_map = new ConcurrentHashMap<>();
 
-    public fileOutputStrategy(String baseDirectory) {
+    /**
+     * Constructs a FileOutputStrategy object with the specified base directory.
+     *
+     * @param baseDirectory the base directory where output files will be stored
+     */
+    public FileOutputStrategy(String baseDirectory) {
 
         this.BaseDirectory = baseDirectory;
     }
+    /**
+     * Outputs data provided into the console
+     *
+     * @param patientId = the Id of the patient
+     * @param timestamp = the timestamp of the data
+     * @param label = the label of the data
+     * @param data = the data that will be shown
+     */
 
     @Override
     public void output(int patientId, long timestamp, String label, String data) {
