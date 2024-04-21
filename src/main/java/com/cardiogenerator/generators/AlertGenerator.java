@@ -4,16 +4,30 @@ package com.cardiogenerator.generators;
 import java.util.Random; //Removed space
 import com.cardiogenerator.outputs.OutputStrategy;
 
+/**
+ * This class is used to Alert patients, which is implemented through a random number generator
+ */
 public class AlertGenerator implements PatientDataGenerator {
     //Changed variable name to comply to criteria for constants
     public static final Random RANDOM_GENERATOR = new Random();
     //Changed variable name to camelCase
     private boolean[] alertStates; // false = resolved, true = pressed
 
+    /**
+     * Constructs an AlertGenerator for a pre-determined amount of patients
+     *
+     * @param patientCount is referring to the amount of constructors needed for patients
+     */
     public AlertGenerator(int patientCount) {
         alertStates = new boolean[patientCount + 1];
     }
 
+    /**
+     * This class generates the alerts for the specified patients from the AlertGenerator constructor
+     *
+     * @param patientId the ID of the patient
+     * @param outputStrategy is the desired output strategy that the alert will use
+     */
     @Override
     public void generate(int patientId, OutputStrategy outputStrategy) {
         try {

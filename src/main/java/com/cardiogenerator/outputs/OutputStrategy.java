@@ -1,4 +1,4 @@
-package com.cardio_generator.outputs;
+package com.cardiogenerator.outputs;
 /**
  * This interface calls the method output, and is implemented through every output strategy
  */

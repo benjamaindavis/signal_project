@@ -9,16 +9,36 @@ import java.nio.file.StandardOpenOption;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class FileOutputStrategy implements OutputStrategy {
+    /**
+     * The base directory where output files will be stored.
+     */
     //Changed variable name to camelCase
     private String baseDirectory;
+    /**
+     * A concurrent hash map to store file paths corresponding to labels.
+     */
+
     //Changed variable name to comply to criteria for constants
     public final ConcurrentHashMap<String, String> FINAL_MAP = new ConcurrentHashMap<>();
-
+    /**
+     * Constructs a FileOutputStrategy object with the specified base directory.
+     *
+     * @param baseDirectory the base directory where output files will be stored
+     */
     public FileOutputStrategy(String baseDirectory) {
 
         this.baseDirectory = baseDirectory;
     }
 
+
+    /**
+     * Outputs data provided into the console
+     *
+     * @param patientId = the Id of the patient
+     * @param timeStamp = the timestamp of the data
+     * @param label = the label of the data
+     * @param data = the data that will be shown
+     */
     @Override
     //Changed timestamp to timeStamp, following the rules for lowerCamelCase
     public void output(int patientId, long timeStamp, String label, String data) {
