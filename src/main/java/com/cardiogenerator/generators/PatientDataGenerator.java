@@ -1,6 +1,6 @@
-package com.cardio_generator.generators;
+package com.cardiogenerator.generators;
 
-import com.cardio_generator.outputs.OutputStrategy;
+import com.cardiogenerator.outputs.OutputStrategy;
 
 /**
  * This class generates data for each patient
