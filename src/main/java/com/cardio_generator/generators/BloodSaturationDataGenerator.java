@@ -45,6 +45,7 @@ public class BloodSaturationDataGenerator implements PatientDataGenerator {
             outputStrategy.output(patientId, System.currentTimeMillis(), "Saturation",
                     Double.toString(newSaturationValue) + "%");
         } catch (Exception e) {
+
             System.err.println("An error occurred while generating blood saturation data for patient " + patientId);
             e.printStackTrace(); // This will print the stack trace to help identify where the error occurred.
         }
