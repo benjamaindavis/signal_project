@@ -5,6 +5,7 @@ import com.data_management.Patient;
 import com.data_management.PatientRecord;//added for checkBloodPressure method
 import java.util.List;
 import java.util.Comparator;
+import java.util.stream.Collectors;
 
 
 /**
@@ -47,32 +48,44 @@ public class AlertGenerator {
             return;
         }
 
-        if (!validTrendAlertBp(patientRecords)){
+        List<PatientRecord> bpRecords = patientRecords.stream()
+                .filter(record -> "BloodPressure".equals(record.getRecordType()))
+                .collect(Collectors.toList());
+
+        if (!validTrendAlertBp(bpRecords)){
             Alert alert = new Alert(patient.getPatientIdString(), "Blood pressure shows a consistent increase or decrease across three consecutive readings", endTime);
             triggerAlert(alert);
         }
 
-        if (!validBpThreshold(patientRecords.get(0), patientRecords.get(1))) {
+        if (!validBpThreshold(bpRecords.get(0), bpRecords.get(1))) {
             Alert alert = new Alert(patient.getPatientIdString(), "Blood pressure is outside the normal range", endTime);
             triggerAlert(alert);
         }
 
-        if (!validBloodOxygenSat(patientRecords.get(0))) {
+        List<PatientRecord> oxygenSatRecords = patientRecords.stream()
+                .filter(record -> "BloodOxygenSaturation".equals(record.getRecordType()))
+                .collect(Collectors.toList());
+
+        if (!validBloodOxygenSat(oxygenSatRecords.get(0))) {
             Alert alert = new Alert(patient.getPatientIdString(), "Blood oxygen saturation is below the normal range", endTime);
             triggerAlert(alert);
         }
 
-        if (!validBloodOxygenSatTimed(patientRecords)) {
+        if (!validBloodOxygenSatTimed(oxygenSatRecords)) {
             Alert alert = new Alert(patient.getPatientIdString(), "Blood oxygen saturation has changed by more than 5% within 10 minutes", endTime);
             triggerAlert(alert);
         }
 
-        if (hypotensiveHypoxemia(patientRecords.get(0), patientRecords.get(1))) {
+        if (hypotensiveHypoxemia(bpRecords.get(0), oxygenSatRecords.get(0))) {
             Alert alert = new Alert(patient.getPatientIdString(), "Patient is experiencing hypotensive hypoxemia", endTime);
             triggerAlert(alert);
         }
 
-        if (!ecgAlert(patientRecords, 5, 10)) {
+        List<PatientRecord> ecgRecords = patientRecords.stream()
+                .filter(record -> "ECG".equals(record.getRecordType()))
+                .collect(Collectors.toList());
+
+        if (!ecgAlert(ecgRecords, 5, 10)) {
             Alert alert = new Alert(patient.getPatientIdString(), "Heart rate peaks above certain values", endTime);
             triggerAlert(alert);
         }
