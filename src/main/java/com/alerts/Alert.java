@@ -23,4 +23,7 @@ public class Alert {
     public long getTimestamp() {
         return timestamp;
     }
+    public String getDetails() {
+        return "Patient ID: " + this.patientId + ", Condition: " + this.condition + ", Timestamp: " + this.timestamp;
+    }
 }

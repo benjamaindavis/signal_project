@@ -49,6 +49,7 @@ public class AlertGenerator implements PatientDataGenerator {
                     outputStrategy.output(patientId, System.currentTimeMillis(), "Alert", "triggered");
                 }
             }
+
         } catch (Exception e) {
             System.err.println("An error occurred while generating alert data for patient " + patientId);
             e.printStackTrace();

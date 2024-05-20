@@ -1,5 +1,6 @@
 package com.data_management;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -82,14 +83,13 @@ public class DataStorage {
      * 
      * @param args command line arguments
      */
-    public static void main(String[] args) {
-        // DataReader is not defined in this scope, should be initialized appropriately.
-        // DataReader reader = new SomeDataReaderImplementation("path/to/data");
+    public static void main(String[] args) throws IOException {
+    DataReader reader = new FileOutputReader("PATIENT_DATA.txt");
         DataStorage storage = new DataStorage();
 
         // Assuming the reader has been properly initialized and can read data into the
-        // storage
-        // reader.readData(storage);
+        //storage
+        reader.readData(storage);
 
         // Example of using DataStorage to retrieve and print records for a patient
         List<PatientRecord> records = storage.getRecords(1, 1700000000000L, 1800000000000L);

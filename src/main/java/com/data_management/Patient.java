@@ -52,6 +52,31 @@ public class Patient {
      *         range
      */
     public List<PatientRecord> getRecords(long startTime, long endTime) {
-        // TODO Implement and test this method
+        List<PatientRecord> filteredRecords = new ArrayList<>();
+
+        for (PatientRecord record : this.patientRecords) {
+            if (record.getTimestamp() >= startTime && record.getTimestamp() <= endTime) {
+                filteredRecords.add(record);
+            }
+        }
+
+        return filteredRecords;
+    }
+    /**
+     * Converts the patient's ID to a string.
+     *
+     * @return the patient's ID as a string
+     */
+    public String getPatientIdString() {
+        return Integer.toString(this.patientId);
+    }
+
+    /**
+     * Retrieves the patient's ID as an integer.
+     *
+     * @return the patient's ID as an integer
+     */
+    public int getPatientIdInt() {
+        return this.patientId;
     }
 }
