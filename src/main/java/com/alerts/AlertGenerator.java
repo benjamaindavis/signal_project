@@ -79,6 +79,13 @@ public class AlertGenerator {
 
         startTime = endTime;
     }
+
+    /**
+     * Checks if the blood pressure shows a consistent increase or decrease across three consecutive readings.
+     *
+     * @param readings the list of patient records
+     * @return true if the blood pressure does not show a consistent increase or decrease, false otherwise
+     */
     public boolean validTrendAlertBp (List<PatientRecord> readings) {
         readings.sort(Comparator.comparingLong(PatientRecord::getTimestamp));
 
@@ -96,15 +103,37 @@ public class AlertGenerator {
         }
         return true;
     }
+
+    /**
+     * Checks if the blood pressure is within the normal range.
+     *
+     * @param reading1 the first patient record
+     * @param reading2 the second patient record
+     * @return true if the blood pressure is within the normal range, false otherwise
+     */
     public boolean validBpThreshold(PatientRecord reading1, PatientRecord reading2){
         if (reading1.getMeasurementValue() > 180 || reading1.getMeasurementValue() < 90){
             return false;
         }
         return !(reading2.getMeasurementValue() > 120) && !(reading2.getMeasurementValue() < 60);
     }
+
+    /**
+     * Checks if the blood oxygen saturation is above the normal range.
+     *
+     * @param reading1 the patient record
+     * @return true if the blood oxygen saturation is above the normal range, false otherwise
+     */
     public boolean validBloodOxygenSat(PatientRecord reading1){
         return !(reading1.getMeasurementValue() < 92);
     }
+
+    /**
+     * Checks if the blood oxygen saturation has changed by more than 5% within 10 minutes.
+     *
+     * @param reading the list of patient records
+     * @return true if the blood oxygen saturation has not changed by more than 5% within 10 minutes, false otherwise
+     */
     public boolean validBloodOxygenSatTimed(List<PatientRecord> reading){
         reading.sort(Comparator.comparingLong(PatientRecord::getTimestamp));
 
@@ -127,9 +156,25 @@ public class AlertGenerator {
         return true;
     }
 
+    /**
+     * Checks if the patient is experiencing hypotensive hypoxemia.
+     *
+     * @param reading1 the first patient record
+     * @param reading2 the second patient record
+     * @return true if the patient is not experiencing hypotensive hypoxemia, false otherwise
+     */
     public boolean hypotensiveHypoxemia(PatientRecord reading1, PatientRecord reading2){
         return (reading1.getMeasurementValue() < 90) && (reading2.getMeasurementValue() < 92);
     }
+
+    /**
+     * Checks if the heart rate peaks above certain values.
+     *
+     * @param records the list of patient records
+     * @param windowSize the window size for calculating the average heart rate
+     * @param threshold the threshold for the heart rate
+     * @return true if the heart rate does not peak above certain values, false otherwise
+     */
     public boolean ecgAlert(List<PatientRecord> records, int windowSize, double threshold) {
         records.sort(Comparator.comparingLong(PatientRecord::getTimestamp));
 
