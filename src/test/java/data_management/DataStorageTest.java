@@ -22,7 +22,7 @@ class DataStorageTest {
 
         storage.addPatientData(1, 100.0, "WhiteBloodCells", 1714376789050L);
         storage.addPatientData(1, 200.0, "WhiteBloodCells", 1714376789051L);
-        reader.readData(storage);
+        reader.startReading(storage);
 
         List<PatientRecord> records = storage.getRecords(1, 1714376789050L, 1714376789051L);
         assertEquals(2, records.size(),0.001); // Check if two records are retrieved
