@@ -145,7 +145,7 @@ public class HealthDataSimulator {
         System.out.println(
                 "  This command simulates data for 100 patients and sends the output to WebSocket clients connected to port 8080.");
     }
-
+//
     /**
      * Initializes the Patient IDs
      *
