@@ -108,8 +108,6 @@ public class DataStorage {
         AlertGenerator alertGenerator = new AlertGenerator(storage);
 
         // Evaluate all patients' data to check for conditions that may trigger alerts
-        for (Patient patient : storage.getAllPatients()) {
-            alertGenerator.evaluateData(patient);
-        }
+        for (Patient patient : storage.getAllPatients()) alertGenerator.evaluateData(patient);
     }
 }
