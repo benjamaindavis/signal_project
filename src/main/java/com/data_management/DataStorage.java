@@ -72,6 +72,10 @@ public class DataStorage {
         }
         return new ArrayList<>(); // return an empty list if no patient is found
     }
+    public Patient getPatient(int patientID) {
+        Patient patient = patientMap.get(patientID);
+        return patient;
+    }
 
     /**
      * Retrieves a collection of all patients stored in the data storage.
@@ -95,7 +99,7 @@ public class DataStorage {
 
         // Assuming the reader has been properly initialized and can read data into the
         //storage
-        reader.readData(storage);
+        reader.startReading(storage);
 
         // Example of using DataStorage to retrieve and print records for a patient
         List<PatientRecord> records = storage.getRecords(1, 1700000000000L, 1800000000000L);

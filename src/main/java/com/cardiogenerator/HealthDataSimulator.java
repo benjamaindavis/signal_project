@@ -1,11 +1,11 @@
 package com.cardiogenerator;
 
+import java.net.URISyntaxException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import com.cardiogenerator.generators.AlertGenerator;
-
+import com.alerts.AlertGenerator;
 import com.cardiogenerator.generators.BloodPressureDataGenerator;
 import com.cardiogenerator.generators.BloodSaturationDataGenerator;
 import com.cardiogenerator.generators.BloodLevelsDataGenerator;
@@ -15,6 +15,9 @@ import com.cardiogenerator.outputs.FileOutputStrategy;
 import com.cardiogenerator.outputs.OutputStrategy;
 import com.cardiogenerator.outputs.TcpOutputStrategy;
 import com.cardiogenerator.outputs.WebSocketOutputStrategy;
+import com.data_management.ContinuousDataReader;
+import com.data_management.DataStorage;
+import com.data_management.Patient;
 
 import java.util.Collections;
 import java.util.List;
@@ -31,10 +34,12 @@ import java.util.ArrayList;
  * or even a TCP socket.
  */
 public class HealthDataSimulator {
+    static DataStorage storage = new DataStorage();
+    static Patient patient;
 
     private static int patientCount = 50; // Default number of patients
     private static ScheduledExecutorService scheduler;
-    private static OutputStrategy outputStrategy = new ConsoleOutputStrategy(); // Default output strategy
+    private static OutputStrategy outputStrategy = new WebSocketOutputStrategy(8080); // Default output strategy
     private static final Random random = new Random();
     private static HealthDataSimulator singleton = null;//created a singleton instance
     /**
@@ -43,7 +48,7 @@ public class HealthDataSimulator {
      * @throws IOException throws an IOException
      */
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, URISyntaxException {
 
         parseArguments(args);
 
@@ -53,6 +58,8 @@ public class HealthDataSimulator {
         Collections.shuffle(patientIds); // Randomize the order of patient IDs
 
         scheduleTasksForPatients(patientIds);
+        ContinuousDataReader reader = new ContinuousDataReader("ws://localhost:8080");
+        reader.startReading(storage);
     }
     private HealthDataSimulator(){// created a private constructor for the singleton pattern
         this.patientCount = 50;
@@ -149,7 +156,7 @@ public class HealthDataSimulator {
         System.out.println(
                 "  This command simulates data for 100 patients and sends the output to WebSocket clients connected to port 8080.");
     }
-
+//
     /**
      * Initializes the Patient IDs
      *
@@ -175,14 +182,14 @@ public class HealthDataSimulator {
         BloodSaturationDataGenerator bloodSaturationDataGenerator = new BloodSaturationDataGenerator(patientCount);
         BloodPressureDataGenerator bloodPressureDataGenerator = new BloodPressureDataGenerator(patientCount);
         BloodLevelsDataGenerator bloodLevelsDataGenerator = new BloodLevelsDataGenerator(patientCount);
-        AlertGenerator alertGenerator = new AlertGenerator(patientCount);
+        AlertGenerator alertGenerator = new com.alerts.AlertGenerator(storage);
 
         for (int patientId : patientIds) {
             scheduleTask(() -> ecgDataGenerator.generate(patientId, outputStrategy), 1, TimeUnit.SECONDS);
             scheduleTask(() -> bloodSaturationDataGenerator.generate(patientId, outputStrategy), 1, TimeUnit.SECONDS);
             scheduleTask(() -> bloodPressureDataGenerator.generate(patientId, outputStrategy), 1, TimeUnit.MINUTES);
             scheduleTask(() -> bloodLevelsDataGenerator.generate(patientId, outputStrategy), 2, TimeUnit.MINUTES);
-            scheduleTask(() -> alertGenerator.generate(patientId, outputStrategy), 20, TimeUnit.SECONDS);
+            scheduleTask(() -> alertGenerator.evaluateData(storage.getPatient(patientId)), 20, TimeUnit.SECONDS);
         }
     }
     /**

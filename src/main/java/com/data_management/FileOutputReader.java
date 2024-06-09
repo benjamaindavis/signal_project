@@ -35,7 +35,7 @@ public class FileOutputReader implements DataReader {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    public void readData(DataStorage dataStorage) throws IOException {
+    public void startReading(DataStorage dataStorage) throws IOException {
         String filePath = outputDir;
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {

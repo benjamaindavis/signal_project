@@ -1,13 +1,15 @@
 package com.data_management;
+import org.java_websocket.client.WebSocketClient;
+import org.java_websocket.handshake.ServerHandshake;
 
 import java.io.IOException;
 
 public interface DataReader {
     /**
-     * Reads data from a specified source and stores it in the data storage.
-     * 
+     * Starts reading data from the websocket server.
+     *
      * @param dataStorage the storage where data will be stored
      * @throws IOException if there is an error reading the data
      */
-    void readData(DataStorage dataStorage) throws IOException;
+    void startReading(DataStorage dataStorage) throws IOException;
 }

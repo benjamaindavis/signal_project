@@ -16,7 +16,7 @@ public class FileOutputReaderTest {
     public void checkIfFilesAreReadAndPassedIntoDataStorage() throws IOException {
         DataStorage storage = new DataStorage();
         FileOutputReader reader = new FileOutputReader("PATIENT_DATA.txt");
-        reader.readData(storage);
+        reader.startReading(storage);
         List<PatientRecord> records = storage.getRecords(1, 0, Long.MAX_VALUE);
 
         Assert.assertEquals(10, records.size());
