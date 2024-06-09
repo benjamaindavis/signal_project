@@ -34,14 +34,14 @@ import java.util.ArrayList;
  * or even a TCP socket.
  */
 public class HealthDataSimulator {
-    static DataStorage storage = new DataStorage();
+    static DataStorage storage = new DataStorage();//fixed an error by adding the static keyword
     static Patient patient;
 
     private static int patientCount = 50; // Default number of patients
     private static ScheduledExecutorService scheduler;
     private static OutputStrategy outputStrategy = new WebSocketOutputStrategy(8080); // Default output strategy
     private static final Random random = new Random();
-
+    private static HealthDataSimulator singleton = null;//created a singleton instance
     /**
      * Main Method to start HealthData Simulation
      *
@@ -60,6 +60,17 @@ public class HealthDataSimulator {
         scheduleTasksForPatients(patientIds);
         ContinuousDataReader reader = new ContinuousDataReader("ws://localhost:8080");
         reader.startReading(storage);
+    }
+    private HealthDataSimulator(){// created a private constructor for the singleton pattern
+        this.patientCount = 50;
+        this.outputStrategy = new ConsoleOutputStrategy();
+    }
+
+    public static HealthDataSimulator getInstance(){// created the getInstance method for the singleton pattern
+        if (singleton==null){
+            singleton = new HealthDataSimulator();
+        }
+        return singleton;
     }
     /**
      * Parses command line comments

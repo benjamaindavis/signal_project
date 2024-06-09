@@ -12,6 +12,10 @@ import java.util.List;
 public class Patient {
     private int patientId;
     private List<PatientRecord> patientRecords;
+    private List<PatientRecord> systolicReadings;
+    private List<PatientRecord> diastolicReadings;
+    private List<PatientRecord> ECGReadings;
+    private List<PatientRecord> oxygenSatReadings;
 
     /**
      * Constructs a new Patient with a specified ID.
@@ -22,6 +26,10 @@ public class Patient {
     public Patient(int patientId) {
         this.patientId = patientId;
         this.patientRecords = new ArrayList<>();
+        this.systolicReadings = new ArrayList<>();
+        this.diastolicReadings = new ArrayList<>();
+        this.ECGReadings = new ArrayList<>();
+        this.oxygenSatReadings = new ArrayList<>();
     }
 
     /**
@@ -49,7 +57,7 @@ public class Patient {
      *                  epoch
      * @param endTime   the end of the time range, in milliseconds since UNIX epoch
      * @return a list of PatientRecord objects that fall within the specified time
-     *         range
+     * range
      */
     public List<PatientRecord> getRecords(long startTime, long endTime) {
         List<PatientRecord> filteredRecords = new ArrayList<>();
@@ -62,6 +70,7 @@ public class Patient {
 
         return filteredRecords;
     }
+
     /**
      * Converts the patient's ID to a string.
      *
@@ -78,5 +87,41 @@ public class Patient {
      */
     public int getPatientIdInt() {
         return this.patientId;
+    }
+
+    /**
+     * Retrieves the list of systolic readings for this patient.
+     *
+     * @return a list of PatientRecord objects representing the systolic readings
+     */
+    public List<PatientRecord> getSystolicReadings() {
+        return systolicReadings;
+    }
+
+    /**
+     * Retrieves the list of diastolic readings for this patient.
+     *
+     * @return a list of PatientRecord objects representing the diastolic readings
+     */
+    public List<PatientRecord> getDiastolicReadings() {
+        return diastolicReadings;
+    }
+
+    /**
+     * Retrieves the list of ECG readings for this patient.
+     *
+     * @return a list of PatientRecord objects representing the ECG readings
+     */
+    public List<PatientRecord> getECGReadings() {
+        return ECGReadings;
+    }
+
+    /**
+     * Retrieves the list of oxygen saturation readings for this patient.
+     *
+     * @return a list of PatientRecord objects representing the oxygen saturation readings
+     */
+    public List<PatientRecord> getOxygenSatReadings() {
+        return oxygenSatReadings;
     }
 }
