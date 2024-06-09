@@ -16,7 +16,7 @@ public class ContinuousDataReader implements DataReader {
     public ContinuousDataReader(String server) throws URISyntaxException {
         this.client = new MyWebSocketClient(new URI(server));
     }
-
+//
     /**
      * @param storage the storage where data will be stored
      */
