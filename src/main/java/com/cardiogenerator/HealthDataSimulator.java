@@ -36,7 +36,7 @@ public class HealthDataSimulator {
     private static ScheduledExecutorService scheduler;
     private static OutputStrategy outputStrategy = new ConsoleOutputStrategy(); // Default output strategy
     private static final Random random = new Random();
-
+    private static HealthDataSimulator singleton = null;//created a singleton instance
     /**
      * Main Method to start HealthData Simulation
      *
@@ -53,6 +53,17 @@ public class HealthDataSimulator {
         Collections.shuffle(patientIds); // Randomize the order of patient IDs
 
         scheduleTasksForPatients(patientIds);
+    }
+    private HealthDataSimulator(){// created a private constructor for the singleton pattern
+        this.patientCount = 50;
+        this.outputStrategy = new ConsoleOutputStrategy();
+    }
+
+    public static HealthDataSimulator getInstance(){// created the getInstance method for the singleton pattern
+        if (singleton==null){
+            singleton = new HealthDataSimulator();
+        }
+        return singleton;
     }
     /**
      * Parses command line comments

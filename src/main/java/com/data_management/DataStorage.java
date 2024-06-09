@@ -15,13 +15,19 @@ import com.alerts.AlertGenerator;
  */
 public class DataStorage {
     private Map<Integer, Patient> patientMap; // Stores patient objects indexed by their unique patient ID.
-
+    private static DataStorage singleton = null;// created a singleton instance
     /**
      * Constructs a new instance of DataStorage, initializing the underlying storage
      * structure.
      */
-    public DataStorage() {
+    private DataStorage() { // made a private constructor for the singleton pattern
         this.patientMap = new HashMap<>();
+    }
+    public static DataStorage getInstance(){ // created the getInstance method for the singleton pattern
+        if(singleton==null){
+            singleton = new DataStorage();
+        }
+        return singleton;
     }
 
     /**
