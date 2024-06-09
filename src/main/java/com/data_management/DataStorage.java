@@ -20,7 +20,7 @@ public class DataStorage {
      * Constructs a new instance of DataStorage, initializing the underlying storage
      * structure.
      */
-    private DataStorage() { // made a private constructor for the singleton pattern
+    public DataStorage() { // made a private constructor for the singleton pattern
         this.patientMap = new HashMap<>();
     }
     public static DataStorage getInstance(){ // created the getInstance method for the singleton pattern

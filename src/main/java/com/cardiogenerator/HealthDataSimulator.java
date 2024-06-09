@@ -34,7 +34,7 @@ import java.util.ArrayList;
  * or even a TCP socket.
  */
 public class HealthDataSimulator {
-    static DataStorage storage = new DataStorage();
+    static DataStorage storage = new DataStorage();//fixed an error by adding the static keyword
     static Patient patient;
 
     private static int patientCount = 50; // Default number of patients
